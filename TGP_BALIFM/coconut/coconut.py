@@ -41,7 +41,7 @@ async def fetch_data():
             data.append({"title": translated_title, "link": href})
 
         # Сохранение данных в JSON файл
-        with open("TGP_BALIFM/coconut/coconuts.json", "w", encoding="utf-8") as json_file:
+        with open("coconut/coconuts.json", "w", encoding="utf-8") as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
 
         print("Данные сохранены в coconuts_data.json.")

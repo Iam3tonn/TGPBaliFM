@@ -4,7 +4,8 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
 import schedule
 import subprocess
-import random  
+import random 
+ 
 
 # Замените 'YOUR_BOT_TOKEN' на ваш токен бота
 bot = Bot(token='6524320610:AAHgv6pft_059D996yAVKr9zEqQUj7iSPmk')
@@ -41,7 +42,13 @@ async def send_new_data():
 # Функция для выполнения jsons_files.py
 def execute_jsons_files():
     # Выполнение jsons_files.py с использованием subprocess
-    subprocess.run(["python", "jsons_files.py"])
+    #subprocess.run(["python", "jsons_files.py"])
+
+    print("Начало jsons_files")
+    script = "jsons_files.py"
+    print(" ")
+    subprocess.run(["python", script])
+    
 
 # Главная функция
 async def main():

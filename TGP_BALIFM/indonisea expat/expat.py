@@ -29,7 +29,7 @@ if response.status_code == 200:
             news_items.append({'title': translated_title, 'link': link})
 
     # Записать данные в JSON-файл
-    with open('TGP_BALIFM/1) Json folder/expat.json', 'w', encoding='utf-8') as json_file:
+    with open('1) Json folder/expat.json', 'w', encoding='utf-8') as json_file:
         json.dump(news_items, json_file, ensure_ascii=False, indent=4)
 
     print('Данные успешно записаны expat')

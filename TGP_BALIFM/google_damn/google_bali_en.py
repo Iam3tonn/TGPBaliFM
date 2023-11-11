@@ -34,7 +34,7 @@ if response.status_code == 200:
             translated_articles.append({'title': translated_title, 'link': link})
 
         # Запишите результаты в JSON файл
-        with open('TGP_BALIFM/1) Json folder/google_bali_en.json', 'w', encoding='utf-8') as json_file:
+        with open('1) Json folder/google_bali_en.json', 'w', encoding='utf-8') as json_file:
             json.dump(translated_articles, json_file, ensure_ascii=False, indent=4)
         print(f'Сохранено {len(articles)} новостей google_bali_en')
     else:
