@@ -18,7 +18,7 @@ sent_links = set()
 
 # Функция для отправки новых данных в канал
 async def send_new_data():
-    with open('TGP_BALIFM/combined_data.json', 'r', encoding='utf-8') as file:
+    with open('combined_data.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
 
         random.shuffle(data)
@@ -41,7 +41,7 @@ async def send_new_data():
 # Функция для выполнения jsons_files.py
 def execute_jsons_files():
     # Выполнение jsons_files.py с использованием subprocess
-    subprocess.run(["python", "TGP_BALIFM/jsons_files.py"])
+    subprocess.run(["python", "jsons_files.py"])
 
 # Главная функция
 async def main():
