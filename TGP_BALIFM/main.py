@@ -40,14 +40,15 @@ async def send_new_data():
                 await asyncio.sleep(10)
 
 # Функция для выполнения jsons_files.py
-def execute_jsons_files():
-    # Выполнение jsons_files.py с использованием subprocess
-    #subprocess.run(["python", "jsons_files.py"])
+import jsons_files
 
+def execute_jsons_files():
     print("Начало jsons_files")
-    script = "jsons_files.py"
     print(" ")
-    subprocess.run(["python", script])
+    jsons_files.main()  # предполагая, что у вас есть функция main в файле jsons_files.py
+
+if __name__ == "__main__":
+    execute_jsons_files()
     
 
 # Главная функция
