@@ -36,3 +36,4 @@ def run():
         print('Data successfully saved in detik.json')
     else:
         print('Error making a request to the page')
+run()

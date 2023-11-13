@@ -1,4 +1,5 @@
 def run():
+    from datetime import datetime, timedelta
     import requests
     import json
     from googletrans import Translator  # Установите библиотеку 'googletrans==4.0.0-rc1' через pip
@@ -6,11 +7,19 @@ def run():
     # Замените 'YOUR_API_KEY' на ваш API ключ
     api_key = 'e97f4805985548a0aa33fe683435e44b'
 
+    # Определите диапазон дат (в данном случае, последняя неделя)
+    end_date = datetime.now()
+    start_date = end_date - timedelta(days=7)
+
     # Задайте параметры запроса
     topic = 'bali'
     language = 'en'  # Язык новостей (например, английский)
     page_size = 10  # Количество новостей, которое вы хотите получить
-    api_url = f'https://newsapi.org/v2/everything?q={topic}&pageSize={page_size}&language={language}&apiKey={api_key}'
+
+    # Формируйте строку с диапазоном дат для запроса
+    date_range = f"{start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')}"
+
+    api_url = f'https://newsapi.org/v2/everything?q={topic}&pageSize={page_size}&language={language}&apiKey={api_key}&from={date_range}'
 
     # Отправьте запрос к News API
     response = requests.get(api_url)
@@ -37,8 +46,12 @@ def run():
             # Запишите результаты в JSON файл
             with open('1) Json folder/google_bali_en.json', 'w', encoding='utf-8') as json_file:
                 json.dump(translated_articles, json_file, ensure_ascii=False, indent=4)
-            print(f'Сохранено {len(articles)} новостей google_bali_en')
+            print(f'Сохранено {len(articles)} новостей google_bali_en за последнюю неделю')
         else:
             print('Нет новостей по запросу.')
     else:
         print('Произошла ошибка при выполнении запроса.')
+
+
+if __name__ == "__main__":
+    run()

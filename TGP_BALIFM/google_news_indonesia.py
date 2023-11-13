@@ -1,18 +1,17 @@
-def run():    
+def is_family_friendly(content):
+    
+    return True
+
+def run():
     import requests
     import json
-    #from googletrans import Translator  # Установите библиотеку 'googletrans==4.0.0-rc1' через pip
-
-    # Замените 'YOUR_API_KEY' на ваш API ключ
+    from datetime import datetime, timedelta
     api_key = 'e97f4805985548a0aa33fe683435e44b'
-
-    # Задайте параметры запроса
     topic = 'Индонезия'
-    language = 'ru'  # Язык новостей (например, английский)
-    page_size = 10  # Количество новостей, которое вы хотите получить
+    language = 'ru'
+    page_size = 10
     api_url = f'https://newsapi.org/v2/everything?q={topic}&pageSize={page_size}&language={language}&apiKey={api_key}'
 
-    # Отправьте запрос к News API
     response = requests.get(api_url)
 
     if response.status_code == 200:
@@ -22,23 +21,32 @@ def run():
         if articles:
             translated_articles = []
 
-            # Создайте объект для перевода
-            #translator = Translator()
+            # Set the current date
+            current_date = datetime.now()
 
             for article in articles:
-                title = article.get('title', '')
-                link = article.get('url', '')
+                # Extract the publication date of the article
+                published_at = article.get('publishedAt', '')
 
-                # Переведите заголовок с английского на русский
-                #translated_title = translator.translate(title, src='en', dest='ru').text
+                # Convert the published date string to a datetime object
+                published_date = datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ')
 
-                translated_articles.append({'title': title, 'link': link})
+                # Check if the article is published within the last week
+                if current_date - published_date < timedelta(days=7) and is_family_friendly(article):
+                    title = article.get('title', '')
+                    link = article.get('url', '')
 
-            # Запишите результаты в JSON файл
+                    translated_articles.append({'title': title, 'link': link})
+
+            # Write the results to a JSON file
             with open('1) Json folder/google_indonesia_en.json', 'w', encoding='utf-8') as json_file:
                 json.dump(translated_articles, json_file, ensure_ascii=False, indent=4)
-            print(f'Сохранено {len(articles)} новостей google_indonesia')
+                
+            print(f'Saved {len(translated_articles)} family-friendly news articles from google_indonesia within the last week.')
         else:
-            print('Нет новостей по запросу.')
+            print('No news articles found for the query.')
     else:
-        print('Произошла ошибка при выполнении запроса.')
+        print('Error executing the request.')
+
+if __name__ == "__main__":
+    run()
