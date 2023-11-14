@@ -67,7 +67,7 @@ async def main():
         execute_jsons_files()
 
         # Затем отправить новые данные
-        #await send_new_data()
+        await send_new_data()
 
         await asyncio.sleep(1800)  # Ожидание 30 минут (1800 секунд)
 

@@ -6,6 +6,16 @@ import deitk
 import expat
 import google_bali_en, google_bali_ru, google_news_indonesia
 
+family_friendly = [
+                   "погибли", "погаорели", "арест", "суд", "тюрьму", "тюрьма", "гениталии", "гениталия", "половой", "интимный", "интинмая", "половым",
+                   "криминал", "преступность", "убийство", "преступность", "преступная", "мертвый", "мертвыми", "эрекции", "пенис", "насилии", "насилие",
+                   "бомбардировщик", "приступности", "наркотики", "наркотиках", "наркотикам", "погибли", "погибла", "погиб", "мертвая", "мертвым", "незаконной",
+                   "госпитализирована","госпитализированы", "госпитализирован", "изнасиловали", "изнасиловал", "казахстанском", "бомбардировщик", "умер", "умерли",
+                   "умерла", "ограбили", "ограбил", "ограбила", "Сан-Франциско"
+                   ]
+def is_family_friendly(title):
+    return any(word.lower() in title.lower() for word in family_friendly)
+
 def main():
     # Замеряем время выполнения
     start_time = time.time()
@@ -62,8 +72,11 @@ def main():
                 # Проверяем каждую запись и добавляем ее в список, если заголовок не находится в исключенных заголовках
                 for item in data:
                     title = item.get("title")
+
                     if title and title not in [d.get("title") for d in unique_data] and title not in exclude_titles:
-                        unique_data.append(item)
+                        # Проверяем, что заголовок не содержит слова из family_friendly
+                        if not is_family_friendly(title):
+                            unique_data.append(item)
 
     # Сохраняем уникальные данные в итоговый JSON файл
     with open(output_file, "w", encoding="utf-8") as json_file:
