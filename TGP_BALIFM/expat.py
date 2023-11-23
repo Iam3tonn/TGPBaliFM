@@ -59,7 +59,8 @@ def run():
                     full_text = get_full_text(link, translator)
 
                     if full_text:
-                        news_items.append({'title': translated_title, 'link': link, 'date': pub_date.strftime("%Y-%m-%d %H:%M:%S"), 'full_text': full_text})
+                        # Update the date format to the desired one
+                        news_items.append({'title': translated_title, 'link': link, 'date': pub_date.strftime("%d %B %Y %H:%M"), 'full_text': full_text})
                     else:
                         print(f"Failed to retrieve full text for {title}")
 

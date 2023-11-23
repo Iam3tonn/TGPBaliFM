@@ -30,7 +30,7 @@ def run():
                 published_at = article.get('publishedAt', '')  # Get the publication date
 
                 # Format the date in a user-friendly way
-                formatted_published_at = datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S')
+                formatted_published_at = datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ').strftime('%d %B %Y %H:%M')
 
                 # Append the article information to the list
                 translated_articles.append({'title': title, 'link': link, 'date': formatted_published_at})

@@ -37,7 +37,8 @@ def run():
                     link = article.get('url', '')
 
                     # Format the publication date in a user-friendly way
-                    formatted_date = published_date.strftime('%Y-%m-%d %H:%M:%S')
+                    #formatted_date = published_date.strftime('%Y-%m-%d %H:%M:%S')
+                    formatted_date = published_date.strftime('%d %B %Y %H:%M')
 
                     # Include the formatted date in the result
                     translated_articles.append({'title': title, 'link': link, 'date': formatted_date})

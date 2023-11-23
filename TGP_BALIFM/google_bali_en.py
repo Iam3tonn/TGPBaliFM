@@ -51,7 +51,7 @@ def run():
                     translated_title = translator.translate(title, src='en', dest='ru').text
 
                     # Format the date in a user-friendly way
-                    formatted_date = article_date.strftime('%Y-%m-%d %H:%M:%S')
+                    formatted_date = article_date.strftime('%d %B %Y %H:%M')
 
                     translated_articles.append({
                         'title': translated_title,

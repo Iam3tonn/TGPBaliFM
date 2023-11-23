@@ -42,9 +42,15 @@ async def send_new_data():
 
             # Check if the link has already been sent
             if link not in sent_links:
-                message = f"Новость выложена {date}\n{title}\n\n{link}"
-                await bot.send_message(chat_id=channel_id, text=message)
+                # Используем HTML-разметку для курсива даты
+                message = f"{title}\n\n{link}\n\n<i>{date}</i>"
+                
+                # Отправка сообщения в телеграм
+                await bot.send_message(chat_id=channel_id, text=message, parse_mode='HTML')
+                
+                # Добавляем отправленную ссылку в множество sent_links
                 sent_links.add(link)
+                
                 # Перерыв между отправками записей в телеграм 20 секунд
                 await asyncio.sleep(20)
 

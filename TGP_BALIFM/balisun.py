@@ -30,8 +30,9 @@ def run():
                 utc_timezone = pytz.timezone('UTC')
                 datetime_obj_utc = datetime_obj.replace(tzinfo=pytz.utc)
 
-                # Convert to a user-friendly string format
-                formatted_date = datetime_obj_utc.astimezone(utc_timezone).strftime('%Y-%m-%d %H:%M')
+                # Customize the date format to include day, month, year, and time
+                formatted_date = datetime_obj_utc.astimezone(utc_timezone).strftime('%d %B %Y %H:%M')
+
 
             # Extract all text content from the article page
             article_text = ' '.join([p.get_text() for p in article_soup.find_all('p')])
