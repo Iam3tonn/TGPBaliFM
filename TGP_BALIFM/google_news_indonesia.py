@@ -1,5 +1,5 @@
 def is_family_friendly(content):
-    
+    # Add your logic to determine if the content is family-friendly
     return True
 
 def run():
@@ -31,22 +31,27 @@ def run():
                 # Convert the published date string to a datetime object
                 published_date = datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ')
 
-                # Check if the article is published within the last week
+                # Check if the article is published within the last week and is family-friendly
                 if current_date - published_date < timedelta(days=7) and is_family_friendly(article):
                     title = article.get('title', '')
                     link = article.get('url', '')
 
-                    translated_articles.append({'title': title, 'link': link})
+                    # Format the publication date in a user-friendly way
+                    formatted_date = published_date.strftime('%Y-%m-%d %H:%M:%S')
+
+                    # Include the formatted date in the result
+                    translated_articles.append({'title': title, 'link': link, 'date': formatted_date})
 
             # Write the results to a JSON file
             with open('1) Json folder/google_indonesia_en.json', 'w', encoding='utf-8') as json_file:
                 json.dump(translated_articles, json_file, ensure_ascii=False, indent=4)
-                
+
             print(f'Saved {len(translated_articles)} family-friendly news articles from google_indonesia within the last week.')
         else:
             print('No news articles found for the query.')
     else:
         print('Error executing the request.')
+        print(response.status_code)
 
 if __name__ == "__main__":
     run()

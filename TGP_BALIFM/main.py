@@ -33,6 +33,7 @@ async def send_new_data():
         for item in data:
             title = item['title']
             link = item['link']
+            date = item['date']
 
             # Check if any word in the title is in the family_friendly list
             if all(word.lower() in title.lower() for word in family_friendly):
@@ -41,7 +42,7 @@ async def send_new_data():
 
             # Check if the link has already been sent
             if link not in sent_links:
-                message = f"{title}\n\n{link}"
+                message = f"Новость выложена {date}\n{title}\n\n{link}"
                 await bot.send_message(chat_id=channel_id, text=message)
                 sent_links.add(link)
                 # Перерыв между отправками записей в телеграм 20 секунд

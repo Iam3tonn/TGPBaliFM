@@ -27,16 +27,24 @@ def run():
             for article in articles:
                 title = article.get('title', '')
                 link = article.get('url', '')
+                published_at = article.get('publishedAt', '')  # Get the publication date
 
-                translated_articles.append({'title': title, 'link': link})
+                # Format the date in a user-friendly way
+                formatted_published_at = datetime.strptime(published_at, '%Y-%m-%dT%H:%M:%SZ').strftime('%Y-%m-%d %H:%M:%S')
 
+                # Append the article information to the list
+                translated_articles.append({'title': title, 'link': link, 'date': formatted_published_at})
+
+            # Save the information to the JSON file
             with open('1) Json folder/google_bali_ru.json', 'w', encoding='utf-8') as json_file:
                 json.dump(translated_articles, json_file, ensure_ascii=False, indent=4)
+
             print(f'Сохранено {len(articles)} новостей google_bali_ru за последнюю неделю')
         else:
             print('Нет новостей по запросу за последнюю неделю.')
     else:
         print('Произошла ошибка при выполнении запроса.')
+        print(response.status_code)
 
 if __name__ == "__main__":
     run()

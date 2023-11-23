@@ -11,7 +11,8 @@ family_friendly = [
                    "криминал", "преступность", "убийство", "преступность", "преступная", "мертвый", "мертвыми", "эрекции", "пенис", "насилии", "насилие",
                    "бомбардировщик", "приступности", "наркотики", "наркотиках", "наркотикам", "погибли", "погибла", "погиб", "мертвая", "мертвым", "незаконной",
                    "госпитализирована","госпитализированы", "госпитализирован", "изнасиловали", "изнасиловал", "казахстанском", "бомбардировщик", "умер", "умерли",
-                   "умерла", "ограбили", "ограбил", "ограбила", "Сан-Франциско", "секс", "сексом", "смерти", "изнасиловано", "убит", "убита", "убиты"
+                   "умерла", "ограбили", "ограбил", "ограбила", "Сан-Франциско", "секс", "сексом", "смерти", "изнасиловано", "убит", "убита", "убиты", "самоубийства",
+                   "самоубийство"
                    ]
 def is_family_friendly(title):
     return any(word.lower() in title.lower() for word in family_friendly)
@@ -20,35 +21,22 @@ def main():
     # Замеряем время выполнения
     start_time = time.time()
 
-    # Запуск первого Python-скрипта
-    print("Выполнение balisun.py")
-    balisun.run()
-    print(" ")
+    scripts_to_run = [
+        balisun.run,
+        deitk.run,
+        expat.run,
+        google_bali_en.run,
+        google_bali_ru.run,
+        google_news_indonesia.run
+    ]
 
-    # Запуск второго Python-скрипта
-    print("Выполнение detik.py")
-    deitk.run()
-    print(" ")
-
-    # Запуск третьего Python-скрипта
-    print("Выполнение expat.py")
-    expat.run()
-    print(" ")
-
-    # Запуск четвертого Python-скрипта
-    print("Выполнение google_bali_en.py")
-    google_bali_en.run()
-    print(" ")
-
-    # Запуск пятого Python-скрипта
-    print("Выполнение google_bali_ru.py")
-    google_bali_ru.run()
-    print(" ")
-
-    # Запуск шестого Python-скрипта
-    print("Выполнение google_news_indonesia.py")
-    google_news_indonesia.run()
-    print(" ")
+    for script in scripts_to_run:
+        print(f"Выполнение {script.__name__}.py")
+        try:
+            script()
+        except Exception as e:
+            print(f"Ошибка при выполнении {script.__name__}.py: {e}")
+        print(" ")
 
     # Папка, в которой находятся JSON файлы
     input_folder = "1) Json folder"

@@ -4,6 +4,16 @@ def run():
     import json
     from googletrans import Translator
 
+    def get_article_text(article_url):
+        response = requests.get(article_url)
+        if response.status_code == 200:
+            article_soup = BeautifulSoup(response.text, 'html.parser')
+            article_text_element = article_soup.find('div', class_='detail__body-text')
+            return article_text_element.text.strip() if article_text_element else None
+        else:
+            print(f'Error fetching article content from {article_url}')
+            return None
+
     url = 'https://www.detik.com/bali/berita'
     response = requests.get(url)
 
@@ -25,10 +35,24 @@ def run():
                     if detail_title_element:
                         title = detail_title_element.text.strip()
 
+                # Extract the article date
+                detail_date_element = article.find('div', class_='detail__date')
+                article_date = detail_date_element.text.strip() if detail_date_element else None
+
                 # Translate the title from Indonesian to Russian
                 translated_title = translator.translate(title, src='id', dest='ru').text
 
-                news_items.append({'title': translated_title, 'link': link})
+                # Get the full text from the article page
+                article_text = get_article_text(link)
+
+                # Remove "\nSimak Video" and specified advertisement content
+                if article_text:
+                    article_text = article_text.replace("\nSimak Video", "").replace("\n\n\r\nADVERTISEMENT\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\nSCROLL TO CONTINUE WITH CONTENT\r\n\n", "")
+
+                    # Remove any combination of \r, \t, \n from the description
+                    article_text = article_text.replace("\r", "").replace("\t", "").replace("\n", "")
+
+                news_items.append({'title': translated_title, 'link': link, 'date': article_date, 'description': article_text})
 
         with open('1) Json folder/detik.json', 'w', encoding='utf-8') as json_file:
             json.dump(news_items, json_file, ensure_ascii=False, indent=4)
@@ -36,4 +60,5 @@ def run():
         print('Data successfully saved in detik.json')
     else:
         print('Error making a request to the page')
+
 run()
