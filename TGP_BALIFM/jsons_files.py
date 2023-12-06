@@ -5,6 +5,8 @@ import balisun
 import deitk
 import expat
 import google_bali_en, google_bali_ru, google_news_indonesia
+#новенькие
+import bisnis, cnbc, cnn, jawapos, setkab
 
 family_friendly = [
                    "погибли", "погаорели", "арест", "суд", "тюрьму", "тюрьма", "гениталии", "гениталия", "половой", "интимный", "интинмая", "половым",
@@ -27,7 +29,12 @@ def main():
         expat.run,
         google_bali_en.run,
         google_bali_ru.run,
-        google_news_indonesia.run
+        google_news_indonesia.run, # новенькие
+        bisnis.run,
+        cnbc.run,
+        cnn.run,
+        jawapos.run,
+        setkab.run
     ]
 
     for script in scripts_to_run:
