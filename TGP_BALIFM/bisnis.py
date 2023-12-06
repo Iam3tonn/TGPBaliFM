@@ -5,8 +5,14 @@ def run():
     from googletrans import Translator
 
     def remove_day_from_date(date_string):
-        # Удаляем название дня недели из строки
-        return date_string.replace("Selasa,", "").strip()
+        # Удаляем название дня недели и знак "|" из строки
+        date_string = date_string.replace("Selasa,", "").replace("|", "").strip()
+        
+        # Удаляем любое первое слово вместе с запятой
+        if ',' in date_string:
+            date_string = date_string.split(',', 1)[1].strip()
+
+        return date_string
 
     def translate_to_russian(text):
         # Переводим текст на русский язык

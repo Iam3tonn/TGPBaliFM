@@ -10,15 +10,36 @@ def run():
         return translation.text if translation.text else text
 
     def extract_date_from_article_page(article_url):
+        # Словарь для соответствия сокращенных форм месяцев и их полных названий
+        month_mapping = {
+            'Jan': 'January',
+            'Feb': 'February',
+            'Mar': 'March',
+            'Apr': 'April',
+            'Mei': 'May',
+            'Jun': 'June',
+            'Jul': 'July',
+            'Agu': 'August',
+            'Sep': 'September',
+            'Okt': 'October',
+            'Des': 'December'
+        }
+
         response = requests.get(article_url, timeout=10)
         if response.status_code == 200:
             soup = BeautifulSoup(response.text, 'html.parser')
             date_element = soup.find('div', class_='text-cnn_grey text-sm mb-4')
             if date_element:
-                # Remove the first word and "WIB" from the end of the date
+                # Извлечь дату и время из элемента
                 date_text = date_element.text.strip().split(' ', 1)[1].rsplit(' ', 1)[0]
+
+                # Заменить сокращенные формы месяцев на полные названия
+                for month_short, month_full in month_mapping.items():
+                    date_text = date_text.replace(month_short, month_full)
+
                 return date_text
         return None
+
 
     url = 'https://www.cnnindonesia.com'
     # Increase the timeout value to a larger value (e.g., 10 seconds)

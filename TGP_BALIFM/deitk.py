@@ -16,12 +16,35 @@ def run():
             print(f'Error fetching article content from {article_url}')
             return None, None
 
+    month_dict = {
+            'Jan': 'January',
+            'Feb': 'February',
+            'Mar': 'March',
+            'Apr': 'April',
+            'Mei': 'May',
+            'Jun': 'June',
+            'Jul': 'July',
+            'Agu': 'August',
+            'Sep': 'September',
+            'Okt': 'October',
+            'Des': 'December'
+        }
+
     def process_date(date_str):
-        # Remove the first word before the comma and the word "WIB"
-        date_parts = date_str.split(',')
-        if len(date_parts) > 1:
-            return ','.join(date_parts[1:]).replace('WIB', '').strip()
-        return date_str
+        # Преобразование сокращенного названия месяца в полное название
+        for short_month, full_month in month_dict.items():
+            date_str = date_str.replace(short_month, full_month)
+
+        # Удаление "WIB" и лишних пробелов
+        date_str = date_str.replace('WIB', '').strip()
+
+        # Split the date string into words
+        date_words = date_str.split()
+
+        # Remove the first word (if exists) and join the remaining words
+        formatted_date = ' '.join(date_words[1:]) if len(date_words) > 1 else date_str
+
+        return formatted_date
 
     url = 'https://www.detik.com/bali/berita'
     response = requests.get(url)
