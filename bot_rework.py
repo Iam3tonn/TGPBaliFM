@@ -1,4 +1,4 @@
-# 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
+# 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
 # 6839644222:AAEoWw9DtKXwVkel-5AOf7SWbIWUXO6mke8
 import logging
 from telegram import Update, ReplyKeyboardMarkup
@@ -10,7 +10,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # Токен API ChatGPT должен быть защищен. Не храните его в коде. Лучше использовать переменные окружения или зашифрованный файл конфигурации.
-CHATGPT_API_TOKEN = "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"
+CHATGPT_API_TOKEN = "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"
 
 def start(update: Update, context: CallbackContext):
     keyboard = [['Telegram', 'Dzen', 'VC.ru']]
@@ -55,7 +55,7 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
 
     try:
         response = requests.post("https://api.openai.com/v1/chat/completions",
-                                 headers={"Authorization": f"Bearer {CHATGPT_API_TOKEN}"},
+                                 headers={"Authorization": f"Bearer {CHATGPT_API_TOKEN}", "Organization-ID": "org-ERAMgQBgyjrEfpSo47e39rq0"}, 
                                  json={
                                      "model": "gpt-3.5-turbo",
                                      "messages": [{"role": "system", "content": "You are a helpful assistant."},
