@@ -1,11 +1,14 @@
 import logging
+import os
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 import requests
 from config import CHATGPT_API_TOKEN, TELEGRAM_API_TOKEN
-import openai 
 
-openai.api_key = "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"
+from openai import OpenAI
+
+client = OpenAI(api_key="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")
+
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -51,15 +54,18 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     prompt = generate_prompt(article_text, choice.lower())
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        response = client.chat.completions.create(
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="gpt-3.5-turbo",
         )
+        print(response)
 
-        gpt_response = response.choices[0].message['content']
+        gpt_response = response.choices[0].message.content
         send_long_message(update.effective_chat.id, gpt_response, context.bot)
 
         keyboard = [['Переписать? ', 'Bagus']]
