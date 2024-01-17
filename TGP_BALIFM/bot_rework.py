@@ -5,7 +5,7 @@ import requests
 from config import CHATGPT_API_TOKEN, TELEGRAM_API_TOKEN
 import openai 
 
-openai.api_key = CHATGPT_API_TOKEN
+openai.api_key = "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"
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -93,7 +93,7 @@ def send_long_message(chat_id, text, bot):
             bot.send_message(chat_id=chat_id, text=part)
 
 def main():
-    updater = Updater(TELEGRAM_API_TOKEN, use_context=True)
+    updater = Updater("6839644222:AAEoWw9DtKXwVkel-5AOf7SWbIWUXO6mke8", use_context=True)
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start))
