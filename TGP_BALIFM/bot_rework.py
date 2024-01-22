@@ -7,7 +7,7 @@ from config import CHATGPT_API_TOKEN, TELEGRAM_API_TOKEN
 
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 
 
 # Настройка логирования
