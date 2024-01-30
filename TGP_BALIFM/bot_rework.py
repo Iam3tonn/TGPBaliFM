@@ -94,7 +94,7 @@ def send_long_message(chat_id, text, bot):
             bot.send_message(chat_id=chat_id, text=part)
 
 def main():
-    telegram_api_key = os.getenv("TELEGRAM_API_TOKEN")
+    telegram_api_key = os.getenv("6839644222:AAEoWw9DtKXwVkel-5AOf7SWbIWUXO6mke8")
     updater = Updater(telegram_api_key, use_context=True)
     dp = updater.dispatcher
 
