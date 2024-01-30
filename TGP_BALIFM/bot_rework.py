@@ -2,17 +2,15 @@ import logging
 import os
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-import requests
-from config import CHATGPT_API_TOKEN, TELEGRAM_API_TOKEN
+import openai
 
-from openai import OpenAI
-
-client = OpenAI(api_key="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")
-
+# Инициализация клиента OpenAI
+openai.api_key = os.getenv("OPENAI_API_TOKEN")
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def start(update: Update, context: CallbackContext):
     keyboard = [['Telegram', 'Dzen', 'VC.ru', 'Instagram']]
@@ -54,16 +52,13 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     prompt = generate_prompt(article_text, choice.lower())
 
     try:
-        response = client.chat.completions.create(
-            messages=[
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
-            ],
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ]
         )
-        print(response)
 
         gpt_response = response.choices[0].message.content
         send_long_message(update.effective_chat.id, gpt_response, context.bot)
@@ -99,8 +94,10 @@ def send_long_message(chat_id, text, bot):
             bot.send_message(chat_id=chat_id, text=part)
 
 def main():
-    updater = Updater("6839644222:AAEoWw9DtKXwVkel-5AOf7SWbIWUXO6mke8", use_context=True)
+    telegram_api_key = os.getenv("TELEGRAM_API_TOKEN")
+    updater = Updater(telegram_api_key, use_context=True)
     dp = updater.dispatcher
+
 
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
