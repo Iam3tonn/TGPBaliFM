@@ -52,22 +52,22 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     prompt = generate_prompt(article_text, choice.lower())
 
     try:
-        response = openai.ChatCompletion.create(
+        response = openai.Completion.create(
             model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
+            prompt=prompt,
+            max_tokens=1024,  # You can adjust the max tokens as needed
+            n=1,
+            stop=None  # Define any stopping tokens if necessary
         )
 
-        gpt_response = response.choices[0].message.content
+        gpt_response = response.choices[0].text.strip()
         send_long_message(update.effective_chat.id, gpt_response, context.bot)
 
         keyboard = [['Переписать? ', 'Bagus']]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         update.message.reply_text('Что вы хотите сделать дальше?', reply_markup=reply_markup)
     except Exception as e:
-        logger.error(f"Ошибка при отправке запроса к ChatGPT: {e}")
+        logger.error(f"Ошибка при отправке запроса к OpenAI: {e}")
         update.message.reply_text('Произошла ошибка при обработке вашего запроса.')
 
 
