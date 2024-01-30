@@ -1,11 +1,11 @@
 import logging
-import os
+import openai
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
-import openai
+
 
 # Инициализация клиента OpenAI
-openai.api_key = "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"
+openai.api_key = "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"
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -52,15 +52,15 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     prompt = generate_prompt(article_text, choice.lower())
 
     try:
-        response = openai.Completion.create(
+        response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            prompt=prompt,
-            max_tokens=1024,  # You can adjust the max tokens as needed
-            n=1,
-            stop=None  # Define any stopping tokens if necessary
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ]
         )
 
-        gpt_response = response.choices[0].text.strip()
+        gpt_response = response['choices'][0]['message']['content']
         send_long_message(update.effective_chat.id, gpt_response, context.bot)
 
         keyboard = [['Переписать? ', 'Bagus']]
@@ -69,6 +69,7 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     except Exception as e:
         logger.error(f"Ошибка при отправке запроса к OpenAI: {e}")
         update.message.reply_text('Произошла ошибка при обработке вашего запроса.')
+
 
 
 def generate_prompt(article_text, button_type):
