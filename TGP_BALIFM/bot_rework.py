@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 import openai
 
 # Инициализация клиента OpenAI
-openai.api_key = os.getenv("OPENAI_API_TOKEN")
+openai.api_key = "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"
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
