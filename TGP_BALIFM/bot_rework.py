@@ -2,10 +2,12 @@ import logging
 import openai
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+import os
 
 
 # Инициализация клиента OpenAI
-openai.api_key = "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"
+#openai.api_key = "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"
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
