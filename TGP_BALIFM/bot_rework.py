@@ -30,7 +30,7 @@ def handle_message(update: Update, context: CallbackContext):
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         update.message.reply_text('Супер, жду следующую задачу', reply_markup=reply_markup)
         update.message.reply_text('Apa kabar? \n\nВыберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
-    elif text in ['Telegram', 'Dzen', 'VC.ru', 'Instagram', 'Переписать?']:
+    elif text in ['Telegram', 'Dzen', 'VC.ru', 'Instagram']:
         user_data['choice'] = text
         update.message.reply_text('Пожалуйста, отправьте текст статьи, чтобы я мог её переписать.')
     elif len(text) < 200:  # Проверка на минимальную длину текста
