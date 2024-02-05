@@ -33,18 +33,18 @@ def handle_message(update: Update, context: CallbackContext):
     elif text in ['Telegram', 'Dzen', 'VC.ru', 'Instagram']:
         user_data['choice'] = text
         update.message.reply_text('Пожалуйста, отправьте текст статьи, чтобы я мог её переписать.')
-    elif len(text) < 200:  # Проверка на минимальную длину текста
-        update.message.reply_text('Ваш текст слишком короткий. Пожалуйста, отправьте текст статьи длиной более 200 символов.')
-    elif 'choice' in user_data:
-        user_data['article_text'] = text
-        update.message.reply_text('Ожидайте, идет обработка запроса...')
-        send_to_chatgpt(update, context)
     elif text == 'Переписать?':
         # Если пользователь нажимает "Переписать?", возвращаем его к выбору типа сайта
         user_data.clear()
         keyboard = [['Telegram', 'Dzen', 'VC.ru', 'Instagram']]
         reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
         update.message.reply_text('Выберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
+    elif len(text) < 200:  # Проверка на минимальную длину текста
+        update.message.reply_text('Ваш текст слишком короткий. Пожалуйста, отправьте текст статьи длиной более 200 символов.')
+    elif 'choice' in user_data:
+        user_data['article_text'] = text
+        update.message.reply_text('Ожидайте, идет обработка запроса...')
+        send_to_chatgpt(update, context)
     else:
         update.message.reply_text('Выберите опцию из меню.')
 
