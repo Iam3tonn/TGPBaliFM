@@ -61,9 +61,9 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
 
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4-turbo-preview",
+            model="gpt-4",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": "Your role is seasoned Copywriter with 15+ years of experience."},
                 {"role": "user", "content": prompt}
             ]
         )
