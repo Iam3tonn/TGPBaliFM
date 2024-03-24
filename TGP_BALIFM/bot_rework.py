@@ -6,9 +6,11 @@ import os
 
 
 # Инициализация клиента OpenAI
-#openai.api_key = "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"
-openai.api_key = os.getenv('OPENAI_API_KEY')
 
+#openai.api_key = "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"
+openai.api_key = os.getenv(' ')
+
+#openai.api_key = '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'
 # Настройка логирования
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -20,6 +22,13 @@ def start(update: Update, context: CallbackContext):
     update.message.reply_text('Apa kabar? \n\nВыберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
 
 def handle_message(update: Update, context: CallbackContext):
+    allowed_user_ids = [264406, 703638312]  # Список разрешенных user IDs
+    user_id = update.effective_user.id
+
+    if user_id not in allowed_user_ids:
+        update.message.reply_text('Извините, у вас нет доступа к этому боту.')
+        return
+    
     text = update.message.text
     user_data = context.user_data
 
@@ -34,14 +43,21 @@ def handle_message(update: Update, context: CallbackContext):
         user_data['choice'] = text
         update.message.reply_text('Пожалуйста, отправьте текст статьи, чтобы я мог её переписать.')
     elif text == 'Переписать?':
-        # Если пользователь нажимает "Переписать?", возвращаем его к выбору типа сайта
-        user_data.clear()
-        keyboard = [['Telegram', 'Dzen', 'VC.ru', 'Instagram']]
-        reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
-        update.message.reply_text('Выберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
+        
+    #    # Если пользователь нажимает "Переписать?", возвращаем его к выбору типа сайта
+    #    user_data.clear()
+    #    keyboard = [['Telegram', 'Dzen', 'VC.ru', 'Instagram']]
+    #    reply_markup = ReplyKeyboardMarkup(keyboard, one_time_keyboard=True, resize_keyboard=True)
+    #    update.message.reply_text('Выберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
+        
+        
+        #user_data['article_text'] = text
+        update.message.reply_text('Ожидайте, идет обработка запроса...')
+        send_to_chatgpt(update, context)
+
     elif len(text) < 200:  # Проверка на минимальную длину текста
         update.message.reply_text('Ваш текст слишком короткий. Пожалуйста, отправьте текст статьи длиной более 200 символов.')
-    elif 'choice' in user_data:
+    elif 'choice' in user_data: 
         user_data['article_text'] = text
         update.message.reply_text('Ожидайте, идет обработка запроса...')
         send_to_chatgpt(update, context)
@@ -53,6 +69,9 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     article_text = user_data.get('article_text')
     choice = user_data.get('choice')
 
+    #print(user_data)
+    
+
     if not article_text or not choice:
         update.message.reply_text('Произошла ошибка. Пожалуйста, начните заново.')
         return
@@ -62,6 +81,7 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     try:
         response = openai.ChatCompletion.create(
             model="gpt-4",
+            temperature=0.15,
             messages=[
                 {"role": "system", "content": "Your role is seasoned Copywriter with 15+ years of experience."},
                 {"role": "user", "content": prompt}
@@ -102,6 +122,8 @@ def send_long_message(chat_id, text, bot):
 
 def main():
     
+    #7151877366:AAGbRL1IU5ZRlQ2TLAaJC-xTD6raaHHh5do 
+
     updater = Updater("6839644222:AAEoWw9DtKXwVkel-5AOf7SWbIWUXO6mke8", use_context=True)
     dp = updater.dispatcher
 
