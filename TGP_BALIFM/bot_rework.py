@@ -8,7 +8,7 @@ import os
 # Инициализация клиента OpenAI
 
 #openai.api_key = "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"
-openai.api_key = os.getenv(' ')
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 #openai.api_key = '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'
 # Настройка логирования
