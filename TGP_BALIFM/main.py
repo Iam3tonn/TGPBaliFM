@@ -11,11 +11,11 @@ import random
 # schedule - для планирования задач, random - для случайного выбора элементов.
 
 # Замените 'YOUR_BOT_TOKEN' на ваш токен бота
-bot = Bot(token='6524320610:AAHgv6pft_059D996yAVKr9zEqQUj7iSPmk')
+bot = Bot(token='7190426477:AAHaNQgUV4cFZzxTpl62Aajboigr9Y04LXI')
 dp = Dispatcher(bot)
 
 # Замените 'CHANNEL_ID' на ID вашего канала
-channel_id = -1002121080519  # Уберите знак "-" перед ID, если у вас приватный канал
+channel_id = -1002057745919  # Уберите знак "-" перед ID, если у вас приватный канал
 
 # Множество для хранения уже отправленных ссылок
 sent_links = set()
