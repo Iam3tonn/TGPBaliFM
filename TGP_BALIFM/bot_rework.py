@@ -22,7 +22,7 @@ def start(update: Update, context: CallbackContext):
     update.message.reply_text('Apa kabar? \n\nВыберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
 
 def handle_message(update: Update, context: CallbackContext):
-    allowed_user_ids = [264406, 703638312]  # Список разрешенных user IDs
+    allowed_user_ids = [264406, 703638312, 223705239]  # Список разрешенных user IDs
     user_id = update.effective_user.id
 
     if user_id not in allowed_user_ids:
