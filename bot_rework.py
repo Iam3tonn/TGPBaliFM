@@ -7,7 +7,7 @@ import os
 
 # Инициализация клиента OpenAI
 
-#openai.api_key = "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"
+#sk-proj-EPJCvoaW1CLg6u8TRXayT3BlbkFJ2ALum24ycK44vCglHC3Q"
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 #openai.api_key = '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'
@@ -22,6 +22,13 @@ def start(update: Update, context: CallbackContext):
     update.message.reply_text('Apa kabar? \n\nВыберите, что вам нужно сгенерировать:', reply_markup=reply_markup)
 
 def handle_message(update: Update, context: CallbackContext):
+    allowed_user_ids = [264406, 703638312, 223705239]  # Список разрешенных user IDs
+    user_id = update.effective_user.id
+
+    if user_id not in allowed_user_ids:
+        update.message.reply_text('Извините, у вас нет доступа к этому боту.')
+        return
+    
     text = update.message.text
     user_data = context.user_data
 
@@ -74,7 +81,7 @@ def send_to_chatgpt(update: Update, context: CallbackContext):
     try:
         response = openai.ChatCompletion.create(
             model="gpt-4",
-            temperature=0.3,
+            temperature=0.30,
             messages=[
                 {"role": "system", "content": "Your role is seasoned Copywriter with 15+ years of experience."},
                 {"role": "user", "content": prompt}
@@ -117,7 +124,7 @@ def main():
     
     #7151877366:AAGbRL1IU5ZRlQ2TLAaJC-xTD6raaHHh5do 
 
-    updater = Updater("6839644222:AAEoWw9DtKXwVkel-5AOf7SWbIWUXO6mke8", use_context=True)
+    updater = Updater("7170539393:AAEI_oC4emB6UiKSSWSihAdqhPZaF6l3ZdU", use_context=True)
     dp = updater.dispatcher
 
 
